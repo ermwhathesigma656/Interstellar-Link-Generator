@@ -48,7 +48,7 @@ export class LinkRegistry extends DurableObject {
     return body.result;
   }
   async create(name) {
-    if (!validName(name) || [this.env.INTERSTELLAR_SERVICE, "schoolwork", "schoolworkv2", "interstellar-links"].includes(name)) return reply({ error: "That name is reserved. Choose another." }, 409);
+    if (!validName(name) || [this.env.INTERSTELLAR_SERVICE, "schoolwork", "schoolworkv2", "generator", "interstellar-links"].includes(name)) return reply({ error: "That name is reserved. Choose another." }, 409);
     const links = await this.ctx.storage.get("links") || {};
     const reserved = Object.hasOwn(links, name);
     const scripts = await this.cloudflare("scripts");

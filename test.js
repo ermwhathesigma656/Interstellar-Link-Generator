@@ -27,7 +27,7 @@ globalThis.fetch = async (url, options = {}) => {
   }
   return Response.json({ success: true, result: {} });
 };
-const origin = "https://interstellar-links.gonicvrnew.workers.dev";
+const origin = "https://generator.gonicvrnew.workers.dev";
 const create = (name, headers = {}) => worker.fetch(new Request(origin + "/api/links", { method: "POST", headers: { Origin: origin, "Content-Type": "application/json", ...headers }, body: JSON.stringify({ name }) }), env);
 try {
   for (const name of ["x", "-bad", "bad-", "9bad", "../existing-site", "a".repeat(41), "__proto__", { bad: true }]) assert.equal((await create(name)).status, 400);
@@ -37,7 +37,7 @@ try {
   assert.equal((await create("a".repeat(300))).status, 413);
   allowed = false; assert.equal((await create("valid-name")).status, 429); allowed = true;
   delete env.CF_API_TOKEN; assert.equal((await create("valid-name")).status, 503); env.CF_API_TOKEN = "test-secret";
-  for (const name of ["interstellar", "schoolwork", "schoolworkv2", "interstellar-links", "existing-site"]) assert.equal((await create(name)).status, 409);
+  for (const name of ["interstellar", "schoolwork", "schoolworkv2", "generator", "interstellar-links", "existing-site"]) assert.equal((await create(name)).status, 409);
   const concurrent = await Promise.all([create(" My-Link "), create("my-link")]);
   assert.deepEqual(concurrent.map(x => x.status), [201, 200]); assert.equal(uploads, 1); assert.equal(enables, 1);
   assert.equal((await concurrent[0].json()).url, "https://my-link.gonicvrnew.workers.dev");

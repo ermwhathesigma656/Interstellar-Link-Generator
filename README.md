@@ -2,6 +2,8 @@
 
 A public form that creates `your-name.gonicvrnew.workers.dev`. Each address forwards to the existing Interstellar Worker through a service binding, including its assets, proxy connections, AI and PC APIs. Updates to Interstellar apply to every generated link.
 
+Public generator: https://generator.gonicvrnew.workers.dev
+
 ## Deploy
 
 1. Run `npm install` and `npx wrangler login`.
