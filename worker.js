@@ -56,7 +56,7 @@ export class LinkRegistry extends DurableObject {
     if (existing && (!reserved || !existing.tags?.includes(tag))) return reply({ error: "That name is already in use. Choose another." }, 409);
     const url = `https://${name}.${this.env.WORKERS_SUBDOMAIN}.workers.dev`;
     if (existing && links[name] === "ready") return reply({ url, existing: true });
-    if (!reserved && (Object.keys(links).length >= 50 || scripts.length >= 95)) return reply({ error: "The link generator is full. Ask the site owner to remove unused links." }, 409);
+    if (!reserved && (Object.keys(links).length >= 50 || scripts.length >= 95)) return reply({ error: "The link generator has reached its limit. Use an existing link or contact the site owner." }, 409);
     // Reserve before uploading: retries can safely finish an interrupted creation.
     links[name] = "creating";
     await this.ctx.storage.put("links", links);
