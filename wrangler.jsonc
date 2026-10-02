@@ -1,0 +1,17 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "interstellar-links",
+  "main": "worker.js",
+  "compatibility_date": "2026-10-01",
+  "workers_dev": true,
+  "preview_urls": false,
+  "assets": { "directory": "./public", "binding": "ASSETS", "run_worker_first": ["/api/*"] },
+  "vars": {
+    "CF_ACCOUNT_ID": "52b7a3bc06090964c872fbeed811c66a",
+    "WORKERS_SUBDOMAIN": "gonicvrnew",
+    "INTERSTELLAR_SERVICE": "interstellar"
+  },
+  "ratelimits": [{ "name": "CREATE_LIMIT", "namespace_id": "20261002", "simple": { "limit": 2, "period": 60 } }],
+  "durable_objects": { "bindings": [{ "name": "LINKS", "class_name": "LinkRegistry" }] },
+  "migrations": [{ "tag": "v1", "new_sqlite_classes": ["LinkRegistry"] }]
+}
