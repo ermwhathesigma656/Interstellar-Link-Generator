@@ -19,9 +19,9 @@ The current Interstellar deployment routes AI/PC requests from aliases to its or
 
 - Public creation: two attempts per IP per minute.
 - Names: 3–40 lowercase letters, digits or hyphens, starting with a letter and ending with a letter/digit.
-- Maximum 50 generated names; stop if the account already contains 95 Workers. This leaves room within the free account's Worker limit. Cloudflare's request limits still apply.
+- There is no lifetime limit on generated names. Creation stops at 95 live Workers across the account, leaving five slots within Cloudflare's 100-Worker free-plan limit. Deleted links and failed reservations do not consume capacity. Cloudflare's request limits still apply.
 - Existing Workers are never deliberately overwritten. The registry serializes creation, checks current Cloudflare names, and only resumes a name reserved by this generator carrying its ownership tag.
 - If a request times out, retry the same name. Completed names return their existing link; interrupted uploads resume enabling their public address.
-- To remove a generated link, delete that Worker in Cloudflare. Its registry reservation remains, so its original name can be recreated without consuming another slot.
+- To remove a generated link, delete that Worker in Cloudflare. This frees capacity for any new name. Its ownership reservation remains so the original name can also be recreated when there is space; it cannot bypass the account capacity guard.
 
 Run `npm test` for validation, origin checks, collisions, quotas, concurrency and interrupted-creation tests. `npm run dev` starts a local preview; set a separate `.dev.vars` token only when testing real creation.

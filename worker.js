@@ -33,7 +33,7 @@ export default {
 
 export class LinkRegistry extends DurableObject {
   fetch(request) {
-    // ponytail: serialize all creation; at most 50 links, no distributed queue needed.
+    // Serialize creation so concurrent requests cannot claim the same name or last slot.
     return this.ctx.blockConcurrencyWhile(async () => {
       try { return await this.create((await request.json()).name); }
       catch { return reply({ error: "Cloudflare could not finish this link. Wait a minute, then retry the same name." }, 502); }
@@ -56,7 +56,8 @@ export class LinkRegistry extends DurableObject {
     if (existing && (!reserved || !existing.tags?.includes(tag))) return reply({ error: "That name is already in use. Choose another." }, 409);
     const url = `https://${name}.${this.env.WORKERS_SUBDOMAIN}.workers.dev`;
     if (existing && links[name] === "ready") return reply({ url, existing: true });
-    if (!reserved && (Object.keys(links).length >= 50 || scripts.length >= 95)) return reply({ error: "The link generator has reached its limit. Use an existing link or contact the site owner." }, 409);
+    // Old reservations are for ownership/retries; only live Workers consume capacity.
+    if (!existing && scripts.length >= 95) return reply({ error: "This Cloudflare account has reached the generator's 95-Worker capacity. The site owner can delete an unused generated link to free a slot. Existing links still work." }, 409);
     // Reserve before uploading: retries can safely finish an interrupted creation.
     links[name] = "creating";
     await this.ctx.storage.put("links", links);
