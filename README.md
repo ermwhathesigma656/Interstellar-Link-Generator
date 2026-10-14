@@ -4,6 +4,10 @@ A public form that creates `your-name.gonicvrnew.workers.dev`. Each address forw
 
 Public generator: https://generator.gonicvrnew.workers.dev
 
+Second account generator: https://generator.discordaccoutcolmaster.workers.dev
+
+The second account uses `wrangler.new-account.jsonc`. Deploy `wrangler.relay.jsonc` first; it provides the `interstellar` service there and forwards requests to the original site's public address. Then deploy the new generator and set its own account-scoped `CF_API_TOKEN` secret with `--config wrangler.new-account.jsonc`. Both configurations pin the second account ID. The original configuration and generator remain separate. Generated links in the new account still depend on the original Interstellar deployment, including its request limits and availability.
+
 ## Deploy
 
 1. Run `npm install` and `npx wrangler login`.
