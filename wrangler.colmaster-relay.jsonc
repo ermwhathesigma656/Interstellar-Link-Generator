@@ -1,0 +1,9 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "interstellar",
+  "account_id": "e6af534064bc166ac7e4e99db2c280a5",
+  "main": "interstellar-relay.js",
+  "compatibility_date": "2026-10-14",
+  "workers_dev": true,
+  "preview_urls": false
+}

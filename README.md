@@ -6,6 +6,10 @@ Public generator: https://generator.gonicvrnew.workers.dev
 
 Second account generator: https://generator.discordaccoutcolmaster.workers.dev
 
+Colmaster account generator: https://interstellar-link-generator.colmasterps99.workers.dev
+
+For the Colmaster account, deploy `wrangler.colmaster-relay.jsonc` first, then `wrangler.colmaster.jsonc`, and set `CF_API_TOKEN` using the latter configuration. Its Git-connected Worker must use `npx wrangler deploy --config wrangler.colmaster.jsonc` as its deploy command so rebuilds keep the correct account and subdomain.
+
 The second account uses `wrangler.new-account.jsonc`. Deploy `wrangler.relay.jsonc` first; it provides the `interstellar` service there and forwards requests to the original site's public address. Then deploy the new generator and set its own account-scoped `CF_API_TOKEN` secret with `--config wrangler.new-account.jsonc`. Both configurations pin the second account ID. The original configuration and generator remain separate. Generated links in the new account still depend on the original Interstellar deployment, including its request limits and availability.
 
 ## Deploy

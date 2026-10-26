@@ -1,0 +1,47 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "interstellar-link-generator",
+  "account_id": "e6af534064bc166ac7e4e99db2c280a5",
+  "main": "worker.js",
+  "compatibility_date": "2026-10-14",
+  "workers_dev": true,
+  "preview_urls": false,
+  "assets": {
+    "directory": "./public",
+    "binding": "ASSETS",
+    "run_worker_first": [
+      "/api/*"
+    ]
+  },
+  "vars": {
+    "CF_ACCOUNT_ID": "e6af534064bc166ac7e4e99db2c280a5",
+    "WORKERS_SUBDOMAIN": "colmasterps99",
+    "INTERSTELLAR_SERVICE": "interstellar"
+  },
+  "ratelimits": [
+    {
+      "name": "CREATE_LIMIT",
+      "namespace_id": "20261002",
+      "simple": {
+        "limit": 2,
+        "period": 60
+      }
+    }
+  ],
+  "durable_objects": {
+    "bindings": [
+      {
+        "name": "LINKS",
+        "class_name": "LinkRegistry"
+      }
+    ]
+  },
+  "migrations": [
+    {
+      "tag": "v1",
+      "new_sqlite_classes": [
+        "LinkRegistry"
+      ]
+    }
+  ]
+}
